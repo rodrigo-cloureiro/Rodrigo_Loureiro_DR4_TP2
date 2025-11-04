@@ -5,69 +5,90 @@ import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ParrotTest {
-    @Test
-    void getSpeedOfEuropeanParrot() {
-        Parrot parrot = new Parrot(new EuropeanParrot());
-        assertEquals(12.0, parrot.getSpeed(), 0.0);
+    @Nested
+    class EuropeanParrotTests {
+        @Test
+        void getSpeedOfEuropeanParrot() {
+            Parrot parrot = europeanParrot();
+            assertEquals(12.0, parrot.getSpeed(), 0.0);
+        }
+
+        @Test
+        void getCryOfEuropeanParrot() {
+            Parrot parrot = europeanParrot();
+            assertEquals("Sqoork!", parrot.getCry());
+        }
     }
 
-    @Test
-    void getSpeedOfAfricanParrotWithOneCoconut() {
-        Parrot parrot = new Parrot(new AfricanParrot(1));
-        assertEquals(3.0, parrot.getSpeed(), 0.0);
+    @Nested
+    class AfricanParrotTests {
+        @Test
+        void getSpeedOfAfricanParrotWithOneCoconut() {
+            Parrot parrot = africanParrot(1);
+            assertEquals(3.0, parrot.getSpeed(), 0.0);
+        }
+
+        @Test
+        void getSpeedOfAfricanParrotWithTwoCoconuts() {
+            Parrot parrot = africanParrot(2);
+            assertEquals(0.0, parrot.getSpeed(), 0.0);
+        }
+
+        @Test
+        void getSpeedOfAfricanParrotWithNoCoconuts() {
+            Parrot parrot = africanParrot(0);
+            assertEquals(12.0, parrot.getSpeed(), 0.0);
+        }
+
+        @Test
+        void getCryOfAfricanParrot() {
+            Parrot parrot = africanParrot(1);
+            assertEquals("Sqaark!", parrot.getCry());
+        }
     }
 
-    @Test
-    void getSpeedOfAfricanParrotWithTwoCoconuts() {
-        Parrot parrot = new Parrot(new AfricanParrot(2));
-        assertEquals(0.0, parrot.getSpeed(), 0.0);
+    @Nested
+    class NorwegianBlueParrotTests {
+        @Test
+        void getSpeedNorwegianBlueParrotNailed() {
+            Parrot parrot = norwegianBlueParrot(1.5, true);
+            assertEquals(0.0, parrot.getSpeed(), 0.0);
+        }
+
+        @Test
+        void getSpeedNorwegianBlueParrotNotNailed() {
+            Parrot parrot = norwegianBlueParrot(1.5, false);
+            assertEquals(18.0, parrot.getSpeed(), 0.0);
+        }
+
+        @Test
+        void getSpeedNorwegianBlueParrotNotNailedHighVoltage() {
+            Parrot parrot = norwegianBlueParrot(4, false);
+            assertEquals(24.0, parrot.getSpeed(), 0.0);
+        }
+
+        @Test
+        void getCryOfNorwegianBlueHighVoltage() {
+            Parrot parrot = norwegianBlueParrot(4, false);
+            assertEquals("Bzzzzzz", parrot.getCry());
+        }
+
+        @Test
+        void getCryOfNorwegianBlueNoVoltage() {
+            Parrot parrot = norwegianBlueParrot(0, false);
+            assertEquals("...", parrot.getCry());
+        }
     }
 
-    @Test
-    void getSpeedOfAfricanParrotWithNoCoconuts() {
-        Parrot parrot = new Parrot(new AfricanParrot(0));
-        assertEquals(12.0, parrot.getSpeed(), 0.0);
+    private Parrot europeanParrot() {
+        return new Parrot(new EuropeanParrot());
     }
 
-    @Test
-    void getSpeedNorwegianBlueParrot_nailed() {
-        Parrot parrot = new Parrot(new NorwegianBlueParrot(1.5, true));
-        assertEquals(0.0, parrot.getSpeed(), 0.0);
+    private Parrot africanParrot(int numberOfCoconuts) {
+        return new Parrot(new AfricanParrot(numberOfCoconuts));
     }
 
-    @Test
-    void getSpeedNorwegianBlueParrot_not_nailed() {
-        Parrot parrot = new Parrot(new NorwegianBlueParrot(1.5, false));
-        assertEquals(18.0, parrot.getSpeed(), 0.0);
-    }
-
-    @Test
-    void getSpeedNorwegianBlueParrot_not_nailed_high_voltage() {
-        Parrot parrot = new Parrot(new NorwegianBlueParrot(4, false));
-        assertEquals(24.0, parrot.getSpeed(), 0.0);
-    }
-
-    @Test
-    void getCryOfEuropeanParrot() {
-        Parrot parrot = new Parrot(new EuropeanParrot());
-        assertEquals("Sqoork!", parrot.getCry());
-    }
-
-    @Test
-    void getCryOfAfricanParrot() {
-        Parrot parrot = new Parrot(new AfricanParrot(1));
-        assertEquals("Sqaark!", parrot.getCry());
-    }
-
-    @Test
-    void getCryOfNorwegianBlueHighVoltage() {
-        Parrot parrot = new Parrot(new NorwegianBlueParrot(4, false));
-        assertEquals("Bzzzzzz", parrot.getCry());
-    }
-
-    @Test
-    void getCryOfNorwegianBlueNoVoltage() {
-        Parrot parrot = new Parrot(new NorwegianBlueParrot(0, false));
-        assertEquals("...", parrot.getCry());
+    private Parrot norwegianBlueParrot(double voltage, boolean nailed) {
+        return new Parrot(new NorwegianBlueParrot(voltage, nailed));
     }
 }
