@@ -37,4 +37,84 @@ garantir que tudo continuasse funcionando como antes.
 
 ## 🚀 Melhorias Implementadas
 
-Em breve...
+### Separação de Responsabilidades e Princípio Aberto/Fechado
+
+#### Antes
+
+```java
+public double getSpeed() {
+    return switch (type) {
+        case EUROPEAN -> getBaseSpeed();
+        case AFRICAN -> Math.max(0, getBaseSpeed() - getLoadFactor() * numberOfCoconuts);
+        case NORWEGIAN_BLUE -> (isNailed) ? 0 : getBaseSpeed(voltage);
+    };
+}
+
+public String getCry() {
+    return switch (type) {
+        case EUROPEAN -> "Sqoork!";
+        case AFRICAN -> "Sqaark!";
+        case NORWEGIAN_BLUE -> voltage > 0 ? "Bzzzzzz" : "...";
+    };
+}
+```
+
+#### Depois
+
+EuropeanParrot
+
+```java
+
+@Override
+public double getSpeed() {
+    return BASE_SPEED;
+}
+
+@Override
+public String getCry() {
+    return "Sqoork!";
+}
+```
+
+AfricanParrot
+
+```java
+
+@Override
+public double getSpeed() {
+    return Math.max(0, BASE_SPEED - LOAD_FACTOR * numberOfCoconuts);
+}
+
+@Override
+public String getCry() {
+    return "Sqaark!";
+}
+```
+
+NorwegianBlueParrot
+
+```java
+
+@Override
+public double getSpeed() {
+    return (isNailed) ? 0 : Math.min(24.0, voltage * BASE_SPEED);
+}
+
+@Override
+public String getCry() {
+    return voltage > 0 ? "Bzzzzzz" : "...";
+}
+```
+
+#### Justificativa:
+
+A lógica foi dividida em classes pequenas e coesas, respeitando o Princípio de Responsabilidade Única.
+O código está aberto para extensão, mas fechado para modificação, permitindo que novos tipos de papagaio possam ser
+adicionados sem modificar o código existente. Antes era necessário alterar a classe `Parrot`, editando dois blocos
+`switch`.
+
+### Testes Facilitados
+
+#### Justificativa:
+
+Os testes estão mais fáceis de manter e entender, pois cada tipo de papagaio tem os seus próprios testes bem definidos.
