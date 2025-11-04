@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ParrotTest {
     @Test
     void getSpeedOfEuropeanParrot() {
-        Parrot parrot = new Parrot(new EuropeanParrotBehavior());
+        Parrot parrot = new Parrot(new EuropeanParrot());
         assertEquals(12.0, parrot.getSpeed(), 0.0);
     }
 
@@ -48,12 +48,12 @@ class ParrotTest {
 //        assertEquals(24.0, parrot.getSpeed(), 0.0);
 //    }
 //
-//    @Test
-//    void getCryOfEuropeanParrot() {
-//        Parrot parrot = new Parrot(ParrotTypeEnum.EUROPEAN, 0, 0, false);
-//        assertEquals("Sqoork!", parrot.getCry());
-//    }
-//
+    @Test
+    void getCryOfEuropeanParrot() {
+        Parrot parrot = new Parrot(new EuropeanParrot());
+        assertEquals("Sqoork!", parrot.getCry());
+    }
+
     @Test
     void getCryOfAfricanParrot() {
         Parrot parrot = new Parrot(new AfricanParrot(1));

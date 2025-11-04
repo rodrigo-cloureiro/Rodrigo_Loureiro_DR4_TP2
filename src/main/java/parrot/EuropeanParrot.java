@@ -1,6 +1,6 @@
 package parrot;
 
-public class EuropeanParrotBehavior implements ParrotBehavior {
+public class EuropeanParrot implements ParrotBehavior {
     @Override
     public double getSpeed() {
         return BASE_SPEED;
